@@ -1,0 +1,115 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "brands": "Brands",
+    "services": "Services",
+    "solutions": "Solutions"
+  },
+  "Header": {
+    "brand": "ShoeSize"
+  },
+  "Hero": {
+    "badge": "✨ Global Size Database 2.0",
+    "title": "Convert Shoe Sizes",
+    "subtitle": "With Zero Effort.",
+    "features": [
+      "Precise conversion between US, EU, UK, and CM sizing systems",
+      "Support for different sizing standards for men's and women's shoes",
+      "Accurate algorithms based on thousands of brand data",
+      "Completely free, no registration required"
+    ]
+  },
+  "Tool": {
+    "title": "Smart Size Conversion Tool"
+  },
+  "Features": {
+    "title": "Why Choose Us?",
+    "subtitle": "Helping millions of users find the perfect size",
+    "items": [
+      {
+        "title": "Precise Algorithm",
+        "desc": "Based on real conversion data from thousands of brands, accuracy up to 98%"
+      },
+      {
+        "title": "Global Support",
+        "desc": "Support US, EU, UK, CN and other country sizing systems"
+      },
+      {
+        "title": "Instant Conversion",
+        "desc": "Get results immediately upon input, quickly find your perfect size"
+      }
+    ]
+  },
+  "Testimonials": {
+    "title": "User Reviews",
+    "subtitle": "Trust from millions of users",
+    "reviews": [
+      {
+        "text": "So easy to use! No more worrying about buying the wrong size, I just convert it right before buying.",
+        "author": "Alex L.",
+        "role": "Global Shopper"
+      },
+      {
+        "text": "High accuracy. I converted over ten pairs of shoes without any sizing issues. Saved me so much return hassle.",
+        "author": "Ms. Wang",
+        "role": "Cross-border Shopper"
+      },
+      {
+        "text": "Clean interface and fast conversion. A must-have tool for my overseas shopping.",
+        "author": "Mr. Zhang",
+        "role": "E-commerce Owner"
+      }
+    ]
+  },
+  "CTA": {
+    "title": "Stop Guessing, Start Precise Shopping",
+    "subtitle": "Use our smart size conversion tool to find your perfect size",
+    "button": "Use for Free Now"
+  },
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about size conversion here",
+    "items": [
+      {
+        "question": "Is the data from this size conversion tool accurate?",
+        "answer": "Yes, our data is collected directly from official brand size charts. We regularly update our database to ensure conversion suggestions match official standards, helping you reduce the risk of returns."
+      },
+      {
+        "question": "Which country and region sizing standards do you support?",
+        "answer": "We currently support major global sizing systems, including US, UK, EU/FR, JP/CM, and CN."
+      },
+      {
+        "question": "Why do suggested sizes sometimes differ between brands?",
+        "answer": "Because different brands (or even different series within the same brand) use different lasts or cutting processes. Our tool considers these brand differences to provide more precise comparisons rather than simple mathematical conversions."
+      },
+      {
+        "question": "What if my measurement falls between two sizes?",
+        "answer": "It is generally recommended to follow the 'size up' rule and choose the size that is half a size larger for better comfort. Especially for sneakers or winter boots, having a little extra room is better."
+      },
+      {
+        "question": "Is this tool free to use?",
+        "answer": "Completely free. We are committed to providing convenient tools; you can use all conversion and comparison features without registering or paying any fees."
+      }
+    ]
+  },
+  "Footer": {
+    "brand": "ShoeSize",
+    "tagline": "Making overseas shopping sizing no longer a problem",
+    "products": "Products",
+    "sizeConversion": "Size Conversion",
+    "brandComparison": "Brand Comparison",
+    "shoppingGuide": "Shopping Guide",
+    "help": "Help",
+    "howToUse": "How to Use",
+    "faq": "FAQ",
+    "contactUs": "Contact Us",
+    "about": "About",
+    "aboutUs": "About Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "copyright": "© 2025 ShoeSize, Inc. Powered by Next.js & shadcn/ui"
+  },
+  "LogoCloud": {
+    "title": "Supported Brands"
+  }
+}
