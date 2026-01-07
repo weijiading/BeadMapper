@@ -42,35 +42,33 @@ export default function SiteHeader() {
               
               {/* 这里的每个 Item 就是一个菜单项 */}
               <NavigationMenuItem>
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <Link href="/home"
+                   className={navigationMenuTriggerStyle()}
+                   >
                     {/* 使用多语言 key，或者直接写文字 */}
                     {t('home')} 
-                  </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link href="/brands" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Link href="/brands" 
+                   className={navigationMenuTriggerStyle()}
+                   >
                     {t('brands')}
-                  </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link href="/services" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Link href="/services" 
+                   className={navigationMenuTriggerStyle()}>
                     {t('services')}
-                  </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               
               <NavigationMenuItem>
-                <Link href="/solutions" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Link href="/solutions"
+                className={navigationMenuTriggerStyle()}>
                     {t('solutions')}
-                  </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
 

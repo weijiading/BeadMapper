@@ -1,0 +1,5 @@
+{
+  "name": "Pro Mask Editor",
+  "description": "A high-performance image masking tool with brush/eraser support, pan/zoom, and binary mask export capabilities.",
+  "requestFramePermissions": []
+}
