@@ -3,12 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-// 注意：因为我们在 [locale] 文件夹内，所以路径变成了 ../globals.css
 import "../globals.css"; 
 
-export const runtime = 'edge';
-
-// 1. 从旧文件迁移来的字体设置
+// 字体设置
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,34 +16,47 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// 2. 从旧文件迁移来的 Metadata
+// 合并所有 metadata 设置
 export const metadata: Metadata = {
   title: "ShoeSize - Smart Shoe Size Converter",
   description: "Convert shoe sizes between US, EU, UK, and CM with precision. Free size converter tool for global shopping.",
-};
+  icons: {
+    icon: [
+      { url: '/favicon-16.ico', sizes: '16x16' },
+      { url: '/favicon-32.ico', sizes: '32x32' },
+      { url: '/favicon-48.ico', sizes: '48x48' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+}
+
+export const runtime = 'edge';
+
+// 国际化配置
+const locales = ['en', 'zh'];
 
 export default async function LocaleLayout({
   children,
   params
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>;  // params 是 Promise
 }) {
+  // 使用 await 解包 Promise
   const { locale } = await params;
 
   // 确保 locale 有效
-  if (!['en', 'zh'].includes(locale)) {
+  if (!locales.includes(locale)) {
     notFound();
   }
 
   // 获取翻译文件
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      {/* 3. 在这里合并字体变量和 class */}
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
+    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      <body className="antialiased">
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
       </body>

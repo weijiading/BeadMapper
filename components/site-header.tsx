@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl' // 引入多语言工具
 import LanguageSwitcher from '@/components/language-switcher' // 引入你原本的语言切换器
 
@@ -28,53 +29,16 @@ export default function SiteHeader() {
       <div className="w-[80%] max-w-[1920px] mx-auto border-x border-dashed border-gray-200 h-16 flex items-center justify-between px-6 lg:px-8">
         
         {/* === 左侧：Logo === */}
-        <Link href="/" className="text-2xl font-black tracking-tighter text-black cursor-pointer">
-          LOGO
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="ezkit"
+            width={48}
+            height={48}
+            priority
+          />
         </Link>
-        
-        {/* 
-           === 中间：新的导航组件 === 
-           原理：这里不再用 map 循环简单的 button，而是用 NavigationMenu 包裹
-        */}
-        <div className="hidden md:flex">
-          <NavigationMenu>
-            <NavigationMenuList>
-              
-              {/* 这里的每个 Item 就是一个菜单项 */}
-              <NavigationMenuItem>
-              <Link href="/home"
-                   className={navigationMenuTriggerStyle()}
-                   >
-                    {/* 使用多语言 key，或者直接写文字 */}
-                    {t('home')} 
-                </Link>
-              </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <Link href="/brands" 
-                   className={navigationMenuTriggerStyle()}
-                   >
-                    {t('brands')}
-                </Link>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <Link href="/services" 
-                   className={navigationMenuTriggerStyle()}>
-                    {t('services')}
-                </Link>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
-                <Link href="/solutions"
-                className={navigationMenuTriggerStyle()}>
-                    {t('solutions')}
-                </Link>
-              </NavigationMenuItem>
-
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
         
         {/* === 右侧：语言切换器 (保持不变) === */}
         <LanguageSwitcher />
