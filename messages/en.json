@@ -9,18 +9,12 @@
     "brand": "ShoeSize"
   },
   "Hero": {
-    "badge": "✨ Global Size Database 2.0",
-    "title": "Convert Shoe Sizes",
-    "subtitle": "With Zero Effort.",
-    "features": [
-      "Precise conversion between US, EU, UK, and CM sizing systems",
-      "Support for different sizing standards for men's and women's shoes",
-      "Accurate algorithms based on thousands of brand data",
-      "Completely free, no registration required"
-    ]
+    "badge": "✨ Ezkit – No Sign-up, Free Tools",
+    "title": "Simple Online Tools for Everyday Tasks",
+    "description": "Ezkit is a lightweight collection of practical online tools built for speed and simplicity.Just open, use, and get things done."
   },
   "Tool": {
-    "title": "Smart Size Conversion Tool"
+    "title": "Simple Online Tools for Everyday Tasks"
   },
   "Features": {
     "title": "Why Choose Us?",

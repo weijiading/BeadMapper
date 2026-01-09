@@ -123,3 +123,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* 定义动画工具类 */
+  .animate-border-beam {
+    animation: border-beam 3s linear infinite;
+  }
+}
+
+/* 定义关键帧 */
+@keyframes border-beam {
+  100% {
+    stroke-dashoffset: -100;
+  }
+}

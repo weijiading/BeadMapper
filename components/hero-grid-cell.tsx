@@ -11,7 +11,7 @@ export default function HeroGridCell({ children }: { children: React.ReactNode }
   // ✅ 修改点：stroke='rgba(0,0,0,0.12)' 
   // 稍微加深了网格颜色，让它比之前更清晰，但仍保持高级灰
   const gridSvg = encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${size} ${size}' width='${size}' height='${size}' fill='none' stroke='rgba(0,0,0,0.12)'><path d='M ${size} 0 L 0 0 0 ${size}'/></svg>`
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${size} ${size}' width='${size}' height='${size}' fill='none' stroke='rgba(0,0,0,0.12)'><path d='M 0 0 L ${size} 0 L ${size} ${size}'/></svg>`
   );
   const gridDataUrl = `url("data:image/svg+xml;charset=utf-8,${gridSvg}")`;
 

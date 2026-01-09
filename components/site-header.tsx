@@ -3,30 +3,26 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl' // 引入多语言工具
-import LanguageSwitcher from '@/components/language-switcher' // 引入你原本的语言切换器
-
-// 引入你新找到的 UI 组件
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+import { useTranslations } from 'next-intl'
+import LanguageSwitcher from '@/components/language-switcher'
 
 export default function SiteHeader() {
-  const t = useTranslations('Navigation') // 假设你的 json 里有 Navigation 字段
+  const t = useTranslations('Navigation')
 
   return (
-    // 1. 外层容器：完全继承你原来的样式 (fixed, blur, border-b)
+    // 1. 外层容器
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-dashed border-gray-200">
       
       {/* 
-         2. 内层布局：完全继承你原来的样式 
-         w-[80%] 保证了左右的出血位，border-x 保证了垂直虚线
+         2. 内层布局 (响应式修改)
       */}
-      <div className="w-[80%] max-w-[1920px] mx-auto border-x border-dashed border-gray-200 h-16 flex items-center justify-between px-6 lg:px-8">
+      <div className="
+        flex h-16 items-center justify-between mx-auto max-w-[1920px]
+        
+        w-full md:w-[80%]                                       /* 手机全宽，电脑80% */
+        px-4 md:px-6 lg:px-8                                    /* Padding: 手机16px，电脑24px+ */
+        border-0 md:border-x md:border-dashed md:border-gray-200 /* Border: 手机无侧边框，电脑有 */
+      ">
         
         {/* === 左侧：Logo === */}
         <Link href="/" className="flex items-center gap-2">
@@ -38,9 +34,8 @@ export default function SiteHeader() {
             priority
           />
         </Link>
-
         
-        {/* === 右侧：语言切换器 (保持不变) === */}
+        {/* === 右侧：语言切换器 === */}
         <LanguageSwitcher />
         
       </div>
