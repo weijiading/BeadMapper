@@ -6,12 +6,12 @@
     "solutions": "Solutions"
   },
   "Header": {
-    "brand": "Ezkit app"
+    "brand": "BeadMapper"
   },
   "Hero": {
-    "badge": "✨ Ezkit app – No Sign-up, Free Tools",
+    "badge": "✨ BeadMapper – No Sign-up, Free Tools",
     "title": "Simple Online Tools for Everyday Tasks",
-    "description": "Ezkit is a lightweight collection of practical online tools built for speed and simplicity.Just open, use, and get things done."
+    "description": "BeadMapper is a lightweight collection of practical online tools built for speed and simplicity.Just open, use, and get things done."
   },
   "Tool": {
     "title": "Simple Online Tools for Everyday Tasks"
@@ -87,7 +87,7 @@
     ]
   },
   "Footer": {
-    "brand": "Ezkit app",
+    "brand": "BeadMapper",
     "tagline": "Making overseas shopping sizing no longer a problem",
     "products": "Products",
     "sizeConversion": "Size Conversion",
@@ -101,7 +101,7 @@
     "aboutUs": "About Us",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "copyright": "© 2025 Ezkit app, Inc. Powered by Next.js & shadcn/ui"
+    "copyright": "© 2025 BeadMapper, Inc. Powered by Next.js & shadcn/ui"
   },
   "LogoCloud": {
     "title": "Supported Brands"

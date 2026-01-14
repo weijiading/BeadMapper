@@ -1,4 +1,4 @@
-export const SHOE_BRANDS = [
+export const PATTERN_BRANDS = [
   { name: "Nike", logo: "👟" },
   { name: "Adidas", logo: "👟" },
   { name: "Puma", logo: "🐾" },

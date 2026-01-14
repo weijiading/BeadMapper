@@ -24,7 +24,7 @@ export function Header() {
           {/* 1. 左侧：Logo - 永远固定在最左边 */}
           <div className="flex items-center flex-shrink-0">
             <h2 className="text-2xl font-bold text-blue-600 tracking-tight">
-              Ezkit app
+              BeadMapper
             </h2>
           </div>
 

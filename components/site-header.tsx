@@ -28,7 +28,7 @@ export default function SiteHeader() {
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.png"
-            alt="ezkit"
+            alt="BeadMapper"
             width={48}
             height={48}
             priority

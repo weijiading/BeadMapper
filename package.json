@@ -1,5 +1,5 @@
 {
-  "name": "ezkit-app",
+  "name": "beadmapper",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -30,6 +30,7 @@
     "next-intl": "^4.6.1",
     "react": "19.2.1",
     "react-dom": "19.2.1",
+    "react-image-crop": "^11.0.10",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

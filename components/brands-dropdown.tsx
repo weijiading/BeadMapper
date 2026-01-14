@@ -4,7 +4,7 @@ import {
   NavigationMenuContent,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { SHOE_BRANDS } from "@/components/brands-data"
+import { PATTERN_BRANDS } from "@/components/brands-data"
 import { cn } from "@/lib/utils"
 
 export function BrandsDropdown() {
@@ -24,7 +24,7 @@ export function BrandsDropdown() {
           移除内部元素的 transition-all，改为 transition-colors 
         */}
         <div className="grid w-[450px] gap-2 p-4 md:w-[500px] lg:grid-cols-2 bg-white">
-          {SHOE_BRANDS.map((brand) => (
+          {PATTERN_BRANDS.map((brand) => (
             <a
               key={brand.name}
               href={`#brand-${brand.name.toLowerCase().replace(/\./g, "")}`}
