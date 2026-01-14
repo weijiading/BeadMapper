@@ -8,16 +8,13 @@
   "Header": {
     "brand": "BeadMapper"
   },
-  "Hero": {
-    "badge": "✨ 全球尺码数据库 2.0",
-    "title": "简洁免费在线工具",
-    "subtitle": "用完即走",
-    "features": [
-      "精确转换 US、EU、UK、CM 四种尺码制式",
-      "支持男鞋和女鞋的不同尺码标准",
-      "基于数千品牌数据的精准算法",
-      "完全免费，无需注册"
-    ]
+"Hero": {
+  "badge": "✨ BeadMapper – 无需注册，完全免费",
+  "title": "处理日常任务的极简在线工具",
+  "description": "BeadMapper 是一个轻量级的实用在线工具合集，专为速度和简洁而生。打开即用，快速搞定任务。",
+  "button1": "上传图片",
+  "button2": "手动绘图",
+  "hintText": "支持JPG、PNG、WEBP和SVG格式，最大10MB"
   },
   "Tool": {
     "title": "简洁的用完即走在线工具"

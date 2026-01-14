@@ -11,7 +11,10 @@
   "Hero": {
     "badge": "✨ BeadMapper – No Sign-up, Free Tools",
     "title": "Simple Online Tools for Everyday Tasks",
-    "description": "BeadMapper is a lightweight collection of practical online tools built for speed and simplicity.Just open, use, and get things done."
+    "description": "BeadMapper is a lightweight collection of practical online tools built for speed and simplicity.Just open, use, and get things done.",
+    "button1": "Upload Image",
+    "button2": "Draw Manually",
+    "hintText": "JPG, PNG, WEBP, SVG · Max 10 MB"
   },
   "Tool": {
     "title": "Simple Online Tools for Everyday Tasks"

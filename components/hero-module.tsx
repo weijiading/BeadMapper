@@ -5,9 +5,16 @@ import SiteHeader from '@/components/site-header'
 import FloatingAvatars from '@/components/floating-avatars'
 import HeroGridCell from '@/components/hero-grid-cell'
 import { useTranslations } from 'next-intl'
+import { IconRocket, IconGitBranch } from "@tabler/icons-react"
+import { Button } from "@/components/ui/button"
+// 新增引入 Label 组件
+import { Label } from "@/components/ui/label"
 
 export default function HeroModule() {
   const t = useTranslations('Hero')
+  
+  // 这里定义提示语变量，延续你的翻译模式
+ 
 
   const containerClass = "w-full md:w-[80%] max-w-[1920px] mx-auto border-x border-dashed border-border bg-background relative transition-all duration-300"
 
@@ -25,21 +32,14 @@ export default function HeroModule() {
                  <FloatingAvatars />
               </div>
 
-              {/* 
-                ⭐⭐⭐ 完美修复版 Badge ⭐⭐⭐ 
-                修复点：将 rx 从 9999 改为 14。
-                原理：标签高度约为 28px，设置 rx="14" (高度的一半) 能强制 SVG 渲染为胶囊形，
-                彻底解决了因 rx 过大导致的“椭圆拉伸”问题。
-              */}
+              {/* Badge */}
               <div className="relative mb-6 md:mb-8 inline-flex items-center justify-center rounded-full bg-background shadow-sm">
                 
-                {/* SVG 容器 */}
                 <svg className="absolute inset-0 h-full w-full overflow-visible pointer-events-none">
                   
-                  {/* 底层静态边框 */}
                   <rect
                     x="1" y="1" 
-                    rx="14" /* ✅ 关键修复：固定圆角半径，匹配标签高度 */
+                    rx="14"
                     width="calc(100% - 2px)" 
                     height="calc(100% - 2px)"
                     fill="none"
@@ -48,22 +48,20 @@ export default function HeroModule() {
                     className="text-border" 
                   />
                   
-                  {/* 顶层流光边框 */}
                   <rect
                     x="1" y="1" 
-                    rx="14" /* ✅ 保持一致 */
+                    rx="14"
                     width="calc(100% - 2px)" 
                     height="calc(100% - 2px)"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1"
-                    strokeDasharray="20 80" /* 调整了光束比例，让它看起来更干练 */
+                    strokeDasharray="20 80"
                     pathLength="100"
                     className="animate-border-beam text-primary" 
                   />
                 </svg>
 
-                {/* 内容层 */}
                 <div className="relative z-10 px-3 py-1 md:px-4 md:py-1.5">
                   <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                     {t('badge')}
@@ -71,15 +69,36 @@ export default function HeroModule() {
                 </div>
 
               </div>
-              {/* ⭐⭐⭐ 修复结束 ⭐⭐⭐ */}
 
+              {/* Title */}
               <h1 className="relative z-20 mx-auto text-center text-3xl sm:text-4xl md:text-[64px] font-black leading-tight tracking-tighter text-foreground max-w-[90%] md:max-w-4xl text-balance">
                 {t('title')}
               </h1>
 
+              {/* Description */}
               <p className="relative z-20 mt-6 mx-auto max-w-2xl text-center text-lg text-muted-foreground md:text-xl">
                 {t('description')}
               </p>
+
+              {/* Buttons */}
+              <div className="relative z-20 mt-8 flex flex-col items-center justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                    <Button variant="outline" size="lg">
+                    <IconRocket className="mr-2" /> 
+                    {t('button1')}
+                    </Button>
+                    
+                    <Button variant="outline" size="lg">
+                    <IconGitBranch className="mr-2" /> 
+                    {t('button2')}
+                    </Button>
+                </div>
+                
+                {/* 新增的提示信息行 */}
+                <Label className="mt-4 text-xs sm:text-sm text-muted-foreground font-normal tracking-wide opacity-80">
+                    {t('hintText')}
+                </Label>
+              </div>
 
             </div>
           </HeroGridCell>
