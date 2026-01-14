@@ -6,7 +6,7 @@
     "solutions": "解决方案"
   },
   "Header": {
-    "brand": "ShoeSize"
+    "brand": "Ezkit app"
   },
   "Hero": {
     "badge": "✨ 全球尺码数据库 2.0",
@@ -93,7 +93,7 @@
       ]
     },
   "Footer": {
-    "brand": "ShoeSize",
+    "brand": "Ezkit app",
     "tagline": "让海淘尺码不再是难题",
     "products": "产品",
     "sizeConversion": "尺码转换",
@@ -107,7 +107,7 @@
     "aboutUs": "关于我们",
     "privacyPolicy": "隐私政策",
     "termsOfService": "服务条款",
-    "copyright": "© 2025 ShoeSize, Inc. Powered by Next.js & shadcn/ui"
+    "copyright": "© 2025 Ezkit app, Inc. Powered by Next.js & shadcn/ui"
   },
   "LogoCloud": {
     "title": "支持的品牌"
