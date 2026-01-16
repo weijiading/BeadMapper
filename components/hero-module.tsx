@@ -19,7 +19,7 @@ export default function HeroModule() {
   const containerClass = "w-full md:w-[80%] max-w-[1920px] mx-auto border-x border-dashed border-border bg-background relative transition-all duration-300"
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div>
       
       <SiteHeader /> 
 

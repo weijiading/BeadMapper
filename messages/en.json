@@ -14,7 +14,7 @@
     "description": "BeadMapper is a lightweight collection of practical online tools built for speed and simplicity.Just open, use, and get things done.",
     "button1": "Upload Image",
     "button2": "Draw Manually",
-    "hintText": "JPG, PNG, WEBP, SVG · Max 10 MB"
+    "hintText": "Supports JPG, PNG, WEBP, and SVG formats, up to 10MB"
   },
   "Tool": {
     "title": "Simple Online Tools for Everyday Tasks"

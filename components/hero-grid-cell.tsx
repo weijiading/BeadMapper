@@ -73,7 +73,7 @@ export default function HeroGridCell({ children }: { children: React.ReactNode }
 
         {hoverPos && (
           <div
-            className="absolute z-0 transition-colors duration-200"
+            className="absolute z-0"
             style={{
               left: hoverPos.x,
               top: hoverPos.y,

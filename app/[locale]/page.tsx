@@ -1,12 +1,10 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { TestimonialGrid } from "@/components/testimonial-grid"
 import HeroModule from "@/components/hero-module"
+import BeadDashboard from "@/components/BeadDashboard"
 import { useTranslations } from "next-intl"
-import FeatureBlocks from "@/components/feature-blocks"
 import FaqComponent from "@/components/shadcn-studio/blocks/faq-component-01/faq-component-01"
-
 
 export default function Home() {
   const t = useTranslations()
@@ -16,15 +14,29 @@ export default function Home() {
 
   return (
     <main className="w-full bg-white text-slate-900">
-      {/* 1. Hero 模块 */}
       <HeroModule />
 
-      {/* ❌ 原来的 Tool Section (智能尺码转换工具) 已删除 */}
+      {/* Dashboard 区域 */}
+      <section className="w-full py-12 bg-slate-100 flex justify-center">
+        {/* 
+            👇 修改点：
+            保持 container 和 padding 约束宽度。
+        */}
+        <div className="container mx-auto px-4">
+          
+          {/* 
+             👇 重点修改：
+             1. 移除了 rounded-2xl, shadow-xl, ring-1, overflow-hidden, bg-white。
+             2. 这些样式现在移交给 BeadDashboard 内部处理。
+             3. 这里只保留 min-h-[800px] 作为一个最小占位。
+          */}
+          <div className="w-full min-h-[800px]">
+            <BeadDashboard />
+          </div>
 
-      {/* 2. Features Section */}
-      <FeatureBlocks />
+        </div>
+      </section>
 
-      {/* 3. ✅ FAQ Section */}
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* ❌ 原来的 标题和副标题区域 已删除 */}
