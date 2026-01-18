@@ -1,4 +1,4 @@
-import { RGB } from "./type";
+import { RGB } from "./types";
 import { colorToKey, keyToColor } from "./colors";
 
 const findBiggestRange = (pixels: RGB[]) => {
@@ -24,6 +24,7 @@ const findBiggestRange = (pixels: RGB[]) => {
 
 export const quantize = (pixels: RGB[], maxColors: number): RGB[] => {
   if (pixels.length === 0) return [];
+  // 如果颜色数量本身就少于最大限制，直接去重返回
   if (maxColors >= pixels.length) return Array.from(new Set(pixels.map(colorToKey))).map(keyToColor);
 
   let buckets = [pixels];

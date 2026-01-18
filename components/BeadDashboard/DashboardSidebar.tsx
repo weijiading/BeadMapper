@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Upload, Grid, Trash2, Crop, Check, ChevronRight, Tag, Settings2, Download
+  Upload, Grid, Trash2, Tag, 
+  Image as ImageIcon, Smile, SlidersHorizontal, Check
 } from 'lucide-react';
 
 import { BrandType, ColorMethod, DitherMethod, SamplingMode } from '@/types';
@@ -11,29 +12,42 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import {
-  Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarGroup,
+  Sidebar, SidebarContent, SidebarHeader, SidebarGroup,
   SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton,
-  SidebarMenuItem, SidebarMenuSub, SidebarMenuSubItem, SidebarRail, SidebarSeparator
+  SidebarMenuItem, SidebarRail, SidebarSeparator
 } from "@/components/ui/sidebar"
 import {
-  Collapsible, CollapsibleContent, CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils";
 
 const SUPPORTED_BRANDS: { id: BrandType; name: string }[] = [
   { id: 'perler', name: 'Perler Beads' },
   { id: 'mard', name: 'Mard Beads' },
 ];
 
+const HelpTooltip = ({ content }: { content: string }) => (
+    <TooltipProvider delayDuration={300}>
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-muted-foreground/50 text-[10px] font-serif text-muted-foreground cursor-help hover:bg-accent hover:text-accent-foreground transition-colors ml-1.5 select-none">
+                    ?
+                </div>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-[240px] text-xs p-3">
+                {content}
+            </TooltipContent>
+        </Tooltip>
+    </TooltipProvider>
+);
+
 interface DashboardSidebarProps extends React.ComponentProps<typeof Sidebar> {
   imageSrc: string | null;
   setImageSrc: (src: string | null) => void;
-  setRawImageSrc: (src: string | null) => void;
-  setIsCropping: (v: boolean) => void;
-  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  
+  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement> | { target: { files: FileList | File[] | null } }) => void;
   colorBrands: BrandType[];
   setColorBrands: React.Dispatch<React.SetStateAction<BrandType[]>>;
   samplingMode: SamplingMode;
@@ -47,13 +61,12 @@ interface DashboardSidebarProps extends React.ComponentProps<typeof Sidebar> {
   colorMethod: ColorMethod;
   setColorMethod: (v: ColorMethod) => void;
   ditherMethod: DitherMethod;
-  
   processedData: any;
-  setProcessedData: any;
+  setProcessedData: (data: any) => void;
 }
 
 export function DashboardSidebar({
-  imageSrc, setImageSrc, setRawImageSrc, setIsCropping, handleImageUpload,
+  imageSrc, setImageSrc, handleImageUpload,
   colorBrands, setColorBrands,
   samplingMode, setSamplingMode, setDitherMethod,
   targetWidth, setTargetWidth,
@@ -63,16 +76,81 @@ export function DashboardSidebar({
   processedData, setProcessedData,
   ...props
 }: DashboardSidebarProps) {
+
+  const [activeStyle, setActiveStyle] = useState<'detail' | 'cartoon' | 'custom'>('cartoon');
+  const [customMemory, setCustomMemory] = useState({ width: 64, maxColors: 48 });
+
+  // 1. 滚动定位逻辑
+  const scrollToDashboard = () => {
+    const element = document.getElementById('bead-dashboard-container');
+    const header = document.getElementById('site-header');
+    if (element) {
+      const isMobile = window.innerWidth < 768;
+      const headerHeight = header ? header.offsetHeight : 64;
+      const gap = isMobile ? 5 : 10;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - headerHeight - gap;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
+  // 2. 监听外部上传事件 (从 Header 传来的)
+  useEffect(() => {
+    const handleExternalUpload = (event: any) => {
+      const file = event.detail.file;
+      if (file) {
+        handleImageUpload({ target: { files: [file] } } as any);
+        setTimeout(scrollToDashboard, 150);
+      }
+    };
+    window.addEventListener('external-image-upload', handleExternalUpload);
+    return () => window.removeEventListener('external-image-upload', handleExternalUpload);
+  }, [handleImageUpload]);
+
+  // 3. 本地侧边栏上传
+  const onLocalUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleImageUpload(e);
+    setTimeout(scrollToDashboard, 150);
+  };
+
+  // 业务逻辑：样式选择
+  const handleStyleSelect = (style: 'detail' | 'cartoon' | 'custom') => {
+    setActiveStyle(style);
+    if (style === 'detail') {
+      setSamplingMode('default');
+      setTargetWidth(100);
+      setMaxColors(totalAvailableColors);
+      setDitherMethod('none');
+    } else if (style === 'cartoon') {
+      setSamplingMode('cartoon');
+      setTargetWidth(50);
+      setMaxColors(32);
+      setDitherMethod('none');
+    } else if (style === 'custom') {
+      setSamplingMode('default'); 
+      setTargetWidth(customMemory.width);
+      setMaxColors(customMemory.maxColors);
+    }
+  };
+
+  const handleManualWidthChange = (val: number) => {
+    setTargetWidth(val);
+    setActiveStyle('custom');
+    setCustomMemory(prev => ({ ...prev, width: val }));
+  };
+
+  const handleManualColorsChange = (val: number) => {
+    setMaxColors(val);
+    setActiveStyle('custom');
+    setCustomMemory(prev => ({ ...prev, maxColors: val }));
+  };
+
   return (
-    <Sidebar 
-      collapsible="icon" 
-      className="!static !h-full hidden md:flex border-r transition-all duration-300 ease-in-out group-data-[state=collapsed]:border-none"
-      {...props}
-    >
+    <Sidebar collapsible="icon" className="!static !h-full hidden md:flex border-r" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <SidebarMenuButton size="lg">
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <Grid className="size-4" />
               </div>
@@ -86,34 +164,25 @@ export function DashboardSidebar({
       </SidebarHeader>
 
       <SidebarContent className="overflow-x-hidden">
-        {/* Source Image Group */}
         <SidebarGroup>
-          <SidebarGroupLabel>Project Source</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupContent className="pt-2">
              {!imageSrc ? (
                <div className="p-2">
-                 <div className="relative border-2 border-dashed border-sidebar-border hover:border-sidebar-accent-foreground/50 rounded-lg h-24 flex flex-col items-center justify-center text-center transition-colors cursor-pointer group bg-sidebar-accent/10">
-                   <input type="file" accept="image/*" onChange={handleImageUpload} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
+                 <div className="relative border-2 border-dashed border-sidebar-border hover:border-sidebar-accent-foreground/50 rounded-lg h-24 flex flex-col items-center justify-center cursor-pointer group bg-sidebar-accent/10">
+                   <input type="file" accept="image/*" onChange={onLocalUpload} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
                    <Upload className="size-5 text-muted-foreground mb-1 group-hover:scale-110 transition-transform" />
                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Upload Image</span>
                  </div>
                </div>
              ) : (
-               <div className="space-y-2 p-2">
+               <div className="p-2">
                   <div className="relative rounded-md overflow-hidden border border-sidebar-border bg-sidebar-accent/50 flex items-center justify-center aspect-video group">
-                     <img src={imageSrc} alt="Source" className="max-w-full max-h-full object-contain" />
-                     {/* Overlay Actions */}
-                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                        <Button variant="secondary" size="icon" className="h-7 w-7" onClick={() => setIsCropping(true)} title="Re-crop">
-                           <Crop size={14} />
-                        </Button>
-                        <Button variant="destructive" size="icon" className="h-7 w-7" onClick={() => { setImageSrc(null); setProcessedData(null); }} title="Remove">
-                           <Trash2 size={14} />
-                        </Button>
-                     </div>
-                  </div>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
-                     <span className="flex items-center gap-1"><Check size={10} /> Image Loaded</span>
+                      <img src={imageSrc} alt="Source" className="max-w-full max-h-full object-contain" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                         <Button variant="destructive" size="icon" className="h-7 w-7" onClick={() => { setImageSrc(null); setProcessedData(null); }}>
+                            <Trash2 size={14} />
+                         </Button>
+                      </div>
                   </div>
                </div>
              )}
@@ -122,167 +191,81 @@ export function DashboardSidebar({
 
         <SidebarSeparator />
 
-        {/* Configuration Group */}
         <SidebarGroup className={!imageSrc ? "opacity-50 pointer-events-none" : ""}>
           <SidebarGroupLabel>Configuration</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              
-              {/* Brands Collapsible */}
-              <Collapsible defaultOpen className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="Brands">
-                      <Tag />
-                      <span>Color Brands</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {SUPPORTED_BRANDS.map((brand) => (
-                        <SidebarMenuSubItem key={brand.id}>
-                           <div className="flex items-center space-x-2 py-1">
-                              <Checkbox 
-                                id={`brand-${brand.id}`} 
-                                checked={colorBrands.includes(brand.id)}
-                                onCheckedChange={() => {
-                                   setColorBrands(prev => prev.includes(brand.id) ? prev.filter(b => b !== brand.id) : [...prev, brand.id]);
-                                }}
-                              />
-                              <label htmlFor={`brand-${brand.id}`} className="text-sm font-medium leading-none cursor-pointer flex-1">
-                                {brand.name}
-                              </label>
-                           </div>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-
-              {/* Processing Style */}
-              <SidebarMenuItem>
-                 <div className="px-2 py-3 space-y-2">
-                    <Label className="text-xs font-semibold text-muted-foreground">STYLE</Label>
-                    <Select value={samplingMode} onValueChange={(v) => { 
-                         setSamplingMode(v as SamplingMode);
-                         if (v === 'cartoon') setDitherMethod('none');
-                         if (v === 'average') setDitherMethod('floyd-steinberg');
-                     }}>
-                      <SelectTrigger className="h-8 text-xs bg-sidebar-accent/50 border-sidebar-border">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="default">Default</SelectItem>
-                        <SelectItem value="cartoon">Cartoon (Solid)</SelectItem>
-                        <SelectItem value="average">Photo (Detailed)</SelectItem>
-                      </SelectContent>
-                    </Select>
+          <SidebarGroupContent className="px-2 py-2 space-y-6">
+              <div className="space-y-3">
+                 <Label className="text-xs font-medium">Style</Label>
+                 <div className="flex flex-col gap-2">
+                    {['detail', 'cartoon', 'custom'].map((style) => (
+                      <button
+                        key={style}
+                        onClick={() => handleStyleSelect(style as any)}
+                        className={cn(
+                          "group flex items-center w-full p-2 rounded-md border text-left transition-all",
+                          activeStyle === style ? "border-primary bg-primary/5 text-primary" : "border-transparent bg-sidebar-accent/30 text-muted-foreground"
+                        )}
+                      >
+                        <div className="mr-3 p-1.5 rounded-md bg-background">
+                           {style === 'detail' && <ImageIcon size={16} />}
+                           {style === 'cartoon' && <Smile size={16} />}
+                           {style === 'custom' && <SlidersHorizontal size={16} />}
+                        </div>
+                        <div className="flex-1">
+                            <div className="text-xs font-semibold capitalize">{style}</div>
+                            <div className="text-[10px] opacity-70">
+                              {style === 'detail' && "100px / Max colors"}
+                              {style === 'cartoon' && "50px / 32 colors"}
+                              {style === 'custom' && "Manual settings"}
+                            </div>
+                        </div>
+                        {activeStyle === style && <Check size={14} />}
+                      </button>
+                    ))}
                  </div>
-              </SidebarMenuItem>
+              </div>
 
-            </SidebarMenu>
+              <div className="space-y-3">
+                 <div className="flex justify-between items-center">
+                    <Label className="text-xs">Width (Beads)</Label>
+                    <span className="text-xs font-mono text-muted-foreground">{targetWidth}px</span>
+                 </div>
+                 <Slider value={[targetWidth]} min={10} max={128} step={1} onValueChange={(v) => handleManualWidthChange(v[0])} />
+              </div>
           </SidebarGroupContent>
         </SidebarGroup>
         
         <SidebarSeparator />
 
-        {/* Dimensions & Palette */}
         <SidebarGroup className={!imageSrc ? "opacity-50 pointer-events-none" : ""}>
-           <SidebarGroupLabel>Dimensions & Palette</SidebarGroupLabel>
-           <SidebarGroupContent>
-              <div className="px-2 space-y-5 py-2">
-                 {/* Width */}
-                 <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                       <Label className="text-xs">Width (Beads)</Label>
-                       <span className="text-xs font-mono text-muted-foreground">{targetWidth}px</span>
-                    </div>
-                    <Slider 
-                       value={[targetWidth]} min={10} max={128} step={1} 
-                       onValueChange={(val) => setTargetWidth(val[0])} 
-                       className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-                    />
+           <SidebarGroupLabel>Palette</SidebarGroupLabel>
+           <SidebarGroupContent className="px-2 space-y-6">
+              <div className="space-y-3">
+                 <div className="flex justify-between items-center">
+                    <Label className="text-xs">Max Colors</Label>
+                    <span className="text-xs font-mono text-muted-foreground">{maxColors}</span>
                  </div>
-
-                 {/* Colors */}
-                 <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                       <Label className="text-xs">Max Colors</Label>
-                       <span className="text-xs font-mono text-muted-foreground">{maxColors}</span>
-                    </div>
-                    <Slider 
-                       value={[maxColors]} min={2} max={totalAvailableColors} step={1} 
-                       onValueChange={(val) => setMaxColors(val[0])} 
-                       className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-                    />
+                 <Slider value={[maxColors]} min={2} max={totalAvailableColors} step={1} onValueChange={(v) => handleManualColorsChange(v[0])} />
+              </div>
+              <div className="space-y-3">
+                 <Label className="text-xs flex items-center gap-2"><Tag size={12} /> BRANDS</Label>
+                 <div className="bg-sidebar-accent/30 rounded-lg p-2 space-y-2 border">
+                    {SUPPORTED_BRANDS.map((brand) => (
+                       <div key={brand.id} className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`brand-${brand.id}`} 
+                            checked={colorBrands.includes(brand.id)}
+                            onCheckedChange={() => setColorBrands(prev => prev.includes(brand.id) ? prev.filter(b => b !== brand.id) : [...prev, brand.id])} 
+                          />
+                          <label htmlFor={`brand-${brand.id}`} className="text-xs cursor-pointer">{brand.name}</label>
+                       </div>
+                    ))}
                  </div>
               </div>
            </SidebarGroupContent>
         </SidebarGroup>
-
-        {/* Advanced Settings */}
-        <SidebarGroup className={!imageSrc ? "opacity-50 pointer-events-none" : ""}>
-           <SidebarMenu>
-            <Collapsible className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="Advanced">
-                      <Settings2 />
-                      <span>Advanced Settings</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                       <SidebarMenuSubItem>
-                          <div className="space-y-1.5 py-1">
-                             <Label className="text-[10px] uppercase text-muted-foreground">Algorithm</Label>
-                             <Select value={colorMethod} onValueChange={(v) => setColorMethod(v as ColorMethod)}>
-                                <SelectTrigger className="h-7 text-xs border-sidebar-border bg-sidebar-accent/50"><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="lab-ciede2000">LAB + CIEDE2000 (Best)</SelectItem>
-                                    <SelectItem value="oklab">OKLab (Fast)</SelectItem>
-                                </SelectContent>
-                            </Select>
-                          </div>
-                       </SidebarMenuSubItem>
-                       <SidebarMenuSubItem>
-                          <div className="space-y-1.5 py-1">
-                             <Label className="text-[10px] uppercase text-muted-foreground">Dithering</Label>
-                             <Select value={ditherMethod} onValueChange={(v) => setDitherMethod(v as DitherMethod)}>
-                                <SelectTrigger className="h-7 text-xs border-sidebar-border bg-sidebar-accent/50"><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="none">None</SelectItem>
-                                    <SelectItem value="floyd-steinberg">Floyd-Steinberg</SelectItem>
-                                    <SelectItem value="atkinson">Atkinson</SelectItem>
-                                </SelectContent>
-                            </Select>
-                          </div>
-                       </SidebarMenuSubItem>
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-           </SidebarMenu>
-        </SidebarGroup>
-
       </SidebarContent>
-      
-      <SidebarFooter>
-         {processedData && (
-             <SidebarMenu>
-                 <SidebarMenuItem>
-                     <Button variant="outline" className="w-full justify-start gap-2 text-sidebar-foreground border-sidebar-border hover:bg-sidebar-accent" onClick={() => (window as any).alert('Export clicked')}>
-                        <Download size={16} /> 
-                        <span>Export PDF</span>
-                     </Button>
-                 </SidebarMenuItem>
-             </SidebarMenu>
-         )}
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

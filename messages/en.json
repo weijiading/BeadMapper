@@ -11,7 +11,7 @@
   "Hero": {
     "badge": "✨ BeadMapper – No Sign-up, Free Tools",
     "title": "Simple Online Tools for Everyday Tasks",
-    "description": "BeadMapper is a lightweight collection of practical online tools built for speed and simplicity.Just open, use, and get things done.",
+    "description": "BeadMapper is a lightweight collection of practical online tools built for speed and simplicity. Just open, use, and get things done.",
     "button1": "Upload Image",
     "button2": "Draw Manually",
     "hintText": "Supports JPG, PNG, WEBP, and SVG formats, up to 10MB"
@@ -59,52 +59,51 @@
     ]
   },
   "CTA": {
-    "title": "Stop Guessing, Start Precise Shopping",
-    "subtitle": "Use our smart size conversion tool to find your perfect size",
-    "button": "Use for Free Now"
+    "title": "Start Creating Your Bead Art",
+    "subtitle": "Use our smart tools to convert images into pixel perfect patterns.",
+    "button": "Start Designing Now"
   },
   "FAQ": {
     "title": "Frequently Asked Questions",
-    "subtitle": "Find answers to common questions about size conversion here",
+    "subtitle": "Find answers to common questions here",
     "items": [
       {
         "question": "Is the data from this size conversion tool accurate?",
-        "answer": "Yes, our data is collected directly from official brand size charts. We regularly update our database to ensure conversion suggestions match official standards, helping you reduce the risk of returns."
+        "answer": "Yes, our data is collected directly from official brand size charts."
       },
       {
         "question": "Which country and region sizing standards do you support?",
-        "answer": "We currently support major global sizing systems, including US, UK, EU/FR, JP/CM, and CN."
+        "answer": "We currently support major global sizing systems."
       },
       {
         "question": "Why do suggested sizes sometimes differ between brands?",
-        "answer": "Because different brands (or even different series within the same brand) use different lasts or cutting processes. Our tool considers these brand differences to provide more precise comparisons rather than simple mathematical conversions."
+        "answer": "Because different brands use different lasts or cutting processes."
       },
       {
         "question": "What if my measurement falls between two sizes?",
-        "answer": "It is generally recommended to follow the 'size up' rule and choose the size that is half a size larger for better comfort. Especially for sneakers or winter boots, having a little extra room is better."
+        "answer": "It is generally recommended to follow the 'size up' rule."
       },
       {
         "question": "Is this tool free to use?",
-        "answer": "Completely free. We are committed to providing convenient tools; you can use all conversion and comparison features without registering or paying any fees."
+        "answer": "Completely free. We are committed to providing convenient tools; you can use all features without registering."
       }
     ]
   },
   "Footer": {
-    "brand": "BeadMapper",
-    "tagline": "Making overseas shopping sizing no longer a problem",
-    "products": "Products",
-    "sizeConversion": "Size Conversion",
-    "brandComparison": "Brand Comparison",
-    "shoppingGuide": "Shopping Guide",
-    "help": "Help",
-    "howToUse": "How to Use",
+    "tagline": "The best design tool for pixel artists and bead enthusiasts.",
+    "toolsTitle": "Creative Tools",
+    "toolsEditor": "Pattern Editor",
+    "toolsPalette": "Color Palette (Artkal/Perler)",
+    "toolsGallery": "Pattern Gallery",
+    "resourcesTitle": "Resources",
+    "guideIroning": "Ironing Guide",
+    "guideBrands": "Brand Comparison",
     "faq": "FAQ",
-    "contactUs": "Contact Us",
-    "about": "About",
-    "aboutUs": "About Us",
+    "aboutTitle": "About",
+    "aboutUs": "Our Team",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "copyright": "© 2025 BeadMapper, Inc. Powered by Next.js & shadcn/ui"
+    "copyright": "© 2026 BeadMapper. All rights reserved."
   },
   "LogoCloud": {
     "title": "Supported Brands"

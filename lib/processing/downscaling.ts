@@ -1,4 +1,4 @@
-import { SamplingMode } from "@/types";
+import { SamplingMode } from "./types";
 
 export const manualDownscale = (
   sourceCanvas: HTMLCanvasElement,

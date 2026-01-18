@@ -1,6 +1,4 @@
-import { BrandColor } from "@/lib/constants/palettes";
-import { ColorMethod } from "@/types";
-import { RGB, LAB, OKLab } from "./type";
+import { RGB, LAB, OKLab } from "./types"; // 注意引用路径
 
 // --- Helpers ---
 
@@ -15,7 +13,7 @@ export const keyToColor = (key: string): RGB => {
 
 const degreesToRadians = (deg: number) => deg * (Math.PI / 180);
 
-// --- Conversions (sRGB <-> XYZ <-> LAB / OKLab) ---
+// --- Conversions ---
 
 export const rgbToXyz = (c: RGB): { x: number; y: number; z: number } => {
   let r = c.r / 255;
@@ -83,16 +81,9 @@ export const getEuclideanOKLab = (a: OKLab, b: OKLab) => {
 };
 
 export const getCiede2000 = (lab1: LAB, lab2: LAB): number => {
-  const kL = 1;
-  const kC = 1;
-  const kH = 1;
-
-  const L1 = lab1.l;
-  const a1 = lab1.a;
-  const b1 = lab1.b;
-  const L2 = lab2.l;
-  const a2 = lab2.a;
-  const b2 = lab2.b;
+  const kL = 1, kC = 1, kH = 1;
+  const { l: L1, a: a1, b: b1 } = lab1;
+  const { l: L2, a: a2, b: b2 } = lab2;
 
   const C1 = Math.sqrt(a1 * a1 + b1 * b1);
   const C2 = Math.sqrt(a2 * a2 + b2 * b2);
@@ -160,53 +151,3 @@ export const getCiede2000 = (lab1: LAB, lab2: LAB): number => {
     R_T * (dC_prime / (kC * S_C)) * (dH_prime / (kH * S_H))
   );
 };
-
-// --- Replacement Finder (UI Logic) ---
-
-export const findClosestPaletteColor = (
-  targetColorStr: string,
-  candidates: BrandColor[],
-  method: ColorMethod = 'lab-ciede2000'
-): BrandColor | null => {
-  if (targetColorStr === 'transparent') return null;
-  
-  let targetRGB: RGB = { r: 0, g: 0, b: 0 };
-  
-  if (targetColorStr.startsWith('#')) {
-    const hex = targetColorStr.replace('#', '');
-    targetRGB = {
-      r: parseInt(hex.substring(0, 2), 16),
-      g: parseInt(hex.substring(2, 4), 16),
-      b: parseInt(hex.substring(4, 6), 16)
-    };
-  } else if (targetColorStr.startsWith('rgb')) {
-    targetRGB = keyToColor(targetColorStr);
-  } else {
-    return null;
-  }
-
-  let bestMatch = candidates[0];
-  let minDist = Infinity;
-  
-  // Pre-calculate target
-  const targetLAB = rgbToLab(targetRGB);
-  const targetOK = rgbToOklab(targetRGB);
-
-  for (const cand of candidates) {
-    let dist = 0;
-    if (method === 'lab-ciede2000') {
-      const candLAB = rgbToLab(cand.rgb);
-      dist = getCiede2000(targetLAB, candLAB);
-    } else {
-      const candOK = rgbToOklab(cand.rgb);
-      dist = getEuclideanOKLab(targetOK, candOK);
-    }
-
-    if (dist < minDist) {
-      minDist = dist;
-      bestMatch = cand;
-    }
-  }
-  
-  return bestMatch;
-}
